@@ -10,6 +10,9 @@ class People {
   speak() {
     alert(`He is ${this.name}, ${this.age} years old`)
   }
+  sayHi() {
+
+  }
 }
 
 class Student extends People {
@@ -28,8 +31,25 @@ class Student extends People {
     alert(`weight is ${this.weight}`)
   }
 
+  sayHi() {
+    alert(`Hi ${this.name}`)
+  }
+
+}
+
+class WhiteCollar extends People {
+  constructor(name, age) {
+    super(name, age)
+  }
+  sayHi() {
+    alert(`Hello ${this.name}`)
+  }
 }
 
 let Long = new Student('Long', 21, 3)
 Long.speak()
+Long.sayHi()
 // console.log(Long.girl)
+
+let DuLala = new WhiteCollar('DuLala', 30)
+DuLala.sayHi()

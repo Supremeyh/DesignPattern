@@ -263,6 +263,44 @@ Long.speak()
 ```
 
 多态，同一接口的不同实现。简单来讲就是父类定义一个接口，子类实现不同的功能。保持子类的开放性和灵活性、面向接口编程(不用管子类如何实现，看父类有多少接口)
+```js
+class People {
+  name
+  constructor(name) {
+    this.name = name
+  }
+  sayHi() {
+
+  }
+}
+
+class A extends People {
+  constructor(name) {
+    super(name)
+  }
+  sayHi() {
+    alert(`Hi ${this.name}`)
+  }
+
+}
+
+class B extends People {
+  constructor(name) {
+    super(name)
+  }
+  sayHi() {
+    alert(`Hello ${this.name}`)
+  }
+}
+
+// a、b使用父类People的sayHi()方法，展示不一样的结果，此为多态
+let a = new A('a')
+a.sayHi()
+
+let b = new B('b')
+b.sayHi()
+```
+
 
 #### 为什么使用面向对象
 1、程序的执行离不开顺序、判断、循环操作，也就是将其结构化
