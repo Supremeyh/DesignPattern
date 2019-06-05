@@ -12,7 +12,7 @@ class People {
   }
 }
 
-class Students extends People {
+class Student extends People {
   num
   private girl
   constructor(name, age, num) {
@@ -30,6 +30,6 @@ class Students extends People {
 
 }
 
-let Long = new Students('Long', 21, 3)
+let Long = new Student('Long', 21, 3)
 Long.speak()
 // console.log(Long.girl)
