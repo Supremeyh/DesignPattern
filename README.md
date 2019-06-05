@@ -14,10 +14,35 @@
 初始化npm环境，使用 webpack 和 babel 搭建 ES6 编译环境。安装webpack、webpack-dev-server、babel
 
 ```JavaScript
-// 初始化
+// 初始化，安装依赖
 npm init
 npm i webpack webpack-cli --save-dev
 npm i webpack-dev-server html-webpack-plugin --save-dev
+npm i @babel/core @babel/preset-env @babel/polyfill babel-loader --save-dev
+
+
+// package.json
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "dev": "webpack-dev-server --config ./webpack.dev.config.js --mode development"
+},
+"devDependencies": {
+  "@babel/core": "^7.4.5",
+  "@babel/polyfill": "^7.4.4",
+  "@babel/preset-env": "^7.4.5",
+  "babel-loader": "^8.0.6",
+  "html-webpack-plugin": "^3.2.0",
+  "webpack": "^4.33.0",
+  "webpack-cli": "^3.3.2",
+  "webpack-dev-server": "^3.5.1"
+}
+
+
+// .babelrc
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": []
+}
 
 
 // webpack.dev.config.js
@@ -41,12 +66,6 @@ module.exports = {
     port: 8001
   }
 }
-
-// package.json
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "dev": "webpack-dev-server --config ./webpack.dev.config.js --mode development"
-},
 ```
 
 

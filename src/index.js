@@ -1,2 +1,13 @@
-console.log(2)
-alert(3)
+class Person {
+  constructor(name) {
+    this.name = name
+  }
+  getName() {
+    return this.name
+  }
+}
+
+
+let p = new Person('sea')
+
+alert(p.getName())
