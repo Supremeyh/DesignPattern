@@ -301,13 +301,50 @@ let b = new B('b')
 b.sayHi()
 ```
 
+#### 应用举例
+以jQuery为例
+```js
+// src/index.ts
+class jQuery {
+  length
+  selector
+  constructor(selector) {
+    let slice = Array.prototype.slice
+    let dom = slice.call(document.querySelectorAll(selector))
+    let len = dom ? dom.length : 0
+    for(let i=0; i<len; i++) {
+      this[i] = dom[i]
+    }
+    this.length = len
+    this.selector = selector || ''
+  }
+  append() {
 
+  }
+  addClass() {
+
+  }
+}
+
+// 入口
+(window as any).$ = function(selector) {
+  // 工场模式
+  return new jQuery(selector)
+}
+
+var $p = $('p')
+console.log($p)
+console.log($p.addClass)
+
+
+// fix: Cannot redeclare block-scoped variable 'jQuery'
+export {}
+```
 #### 为什么使用面向对象
-1、程序的执行离不开顺序、判断、循环操作，也就是将其结构化
-2、面向对象就是将零散的数据结构化
+1、程序的执行离不开顺序、判断、循环操作，即结构化
+2、面向对象 ——数据结构化
 3、对于计算机而言，结构化的才是最简单的
-4、编程应该是 简单&抽象，简单的前提是抽象，抽象后才简单
-
+4、编程应该是 简单&抽象
 
 ####  UML类图
 

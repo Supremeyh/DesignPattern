@@ -1,55 +1,39 @@
-class People {
-  name
-  age
-  protected weight
-  constructor(name,age) {
-    this.name = name
-    this.age = age
-    this.weight = 120
+// import $ = require('jquery')
+
+class jQuery {
+  length
+  selector
+  constructor(selector) {
+    let slice = Array.prototype.slice
+    let dom = slice.call(document.querySelectorAll(selector))
+    let len = dom ? dom.length : 0
+    for(let i=0; i<len; i++) {
+      this[i] = dom[i]
+    }
+    this.length = len
+    this.selector = selector || ''
   }
-  speak() {
-    alert(`He is ${this.name}, ${this.age} years old`)
+
+  append() {
+
   }
-  sayHi() {
+  addClass() {
 
   }
 }
 
-class Student extends People {
-  num
-  private girl
-  constructor(name, age, num) {
-    super(name, age)
-    this.num = num
-    this.girl = 'Lucy'
-  }
 
-  study() {
-    alert(`${this.name} study number is ${this.num}`)
-  }
-  getWeight() {
-    alert(`weight is ${this.weight}`)
-  }
 
-  sayHi() {
-    alert(`Hi ${this.name}`)
-  }
-
+(window as any).$ = function(selector) {
+  // 工场模式
+  return new jQuery(selector)
 }
 
-class WhiteCollar extends People {
-  constructor(name, age) {
-    super(name, age)
-  }
-  sayHi() {
-    alert(`Hello ${this.name}`)
-  }
-}
+// test
+var $p = $('p')
+console.log($p)
+console.log($p.addClass)
 
-let Long = new Student('Long', 21, 3)
-Long.speak()
-Long.sayHi()
-// console.log(Long.girl)
 
-let DuLala = new WhiteCollar('DuLala', 30)
-DuLala.sayHi()
+// fix: Cannot redeclare block-scoped variable 'jQuery'
+export {}
