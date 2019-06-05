@@ -2,6 +2,7 @@
 设计模式是解决问题的方案，学习现有的设计模式可以做到经验复用。拥有设计模式词汇，在沟通时就能用更少的词汇来讨论，并且不需要了解底层细节。
 
 ### 概述
+#### 重要性
 论工程师的设计能力
 3年工作经验，面试必考设计能力
 成为项目负责人，设计能力是必要基础
@@ -9,7 +10,6 @@
 
 之前：操作DOM / 绑定事件 / 发送请求 -->  之后：面向对象 / 设计模式 / 合理性和扩展性
 
-### 面向对象
 #### 搭建开发环境
 初始化npm环境，使用 webpack 和 babel 搭建 ES6 编译环境。安装webpack、webpack-dev-server、babel
 
@@ -36,7 +36,7 @@ npm i @babel/core @babel/preset-env @babel/polyfill babel-loader --save-dev
   "webpack-cli": "^3.3.2",
   "webpack-dev-server": "^3.5.1"
 }
-
+  
 
 // .babelrc
 {
@@ -68,7 +68,7 @@ module.exports = {
 }
 ```
 
-
+### 面向对象
 ####  ES6 Class
 基本语法
 ####  三要素
