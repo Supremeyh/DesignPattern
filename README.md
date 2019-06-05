@@ -347,6 +347,11 @@ export {}
 4、编程应该是 简单&抽象
 
 ####  UML类图
+Unified Modeling Language 统一建模语言
+
+UML包含很多种图，主要分享类图，掌握泛化（类之间的继承）和关联（类之间的组合或者是引用）
+
+在线工具： https://www.processon.com/
 
 
 ### 设计原则
