@@ -326,7 +326,7 @@ class jQuery {
   }
 }
 
-// 入口
+// fix: Property '$' does not exist on type '{}'
 (window as any).$ = function(selector) {
   // 工场模式
   return new jQuery(selector)

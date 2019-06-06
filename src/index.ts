@@ -1,39 +1,24 @@
-// import $ = require('jquery')
-
-class jQuery {
-  length
-  selector
-  constructor(selector) {
-    let slice = Array.prototype.slice
-    let dom = slice.call(document.querySelectorAll(selector))
-    let len = dom ? dom.length : 0
-    for(let i=0; i<len; i++) {
-      this[i] = dom[i]
+function loadImg(src) {
+  return new Promise((resolove, reject) => {
+    let img = document.createElement('img')
+    img.onload = function() {
+      resolove(img)
     }
-    this.length = len
-    this.selector = selector || ''
-  }
-
-  append() {
-
-  }
-  addClass() {
-
-  }
+    img.onerror = function() {
+      reject('failure')
+    }
+    img.src = src
+  })
 }
 
+let src = 'http://www.laverocks.co.uk/gilslandmag/desktops/tup_800.jpg'
+let result = loadImg(src)
+result.then(img => {
+  console.log((img as any).width)
+  return img
+}).then(img => {
+  console.log((img as any).height)
+}).catch(err => {
+  console.error(err)
+})
 
-
-(window as any).$ = function(selector) {
-  // 工场模式
-  return new jQuery(selector)
-}
-
-// test
-var $p = $('p')
-console.log($p)
-console.log($p.addClass)
-
-
-// fix: Cannot redeclare block-scoped variable 'jQuery'
-export {}
