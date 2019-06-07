@@ -1,26 +1,37 @@
-class Person {
-  constructor(name, age) {
+class Car {
+  constructor(name, number) {
     this.name = name
-    this.age = age
-  }
-
-  speak() {
-    alert(`He is ${this.name}, ${this.age} years old.`)
+    this.number = number
   }
 }
 
-class Student extends Person {
-  constructor(name, age, num) {
-    super(name, age)
-    this.num = num
-  }
-
-  study() {
-    alert(`${this.name} study number is ${this.num}`)
+class FastCar extends Car {
+  constructor(name, number) {
+    super(name, number)
+    this.price = 1
   }
 }
 
+class SpecialCar extends Car {
+  constructor(name, number) {
+    super(name, number)
+    this.price = 2
+  }
+}
 
-let Lee = new Student('Lee', 19, 3)
-Lee.speak()
-Lee.study()
+class Trip {
+  constructor(car) {
+    this.car = car
+  }
+  showCarInfo() {
+    console.log(`THe car is ${this.car.name}, number is ${this.car.number}`)
+  }
+  showFare() {
+    console.log(`THe price is ${this.car.price * 5}`)
+  }
+}
+
+let car = new FastCar('wuling', 001)
+let trip = new Trip(car)
+trip.showCarInfo()
+trip.showFare()

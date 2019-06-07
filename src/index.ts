@@ -1,24 +1,42 @@
-function loadImg(src) {
-  return new Promise((resolove, reject) => {
-    let img = document.createElement('img')
-    img.onload = function() {
-      resolove(img)
-    }
-    img.onerror = function() {
-      reject('failure')
-    }
-    img.src = src
-  })
+class Car {
+  name
+  number
+  constructor(name, number) {
+    this.name = name
+    this.number = number
+  }
 }
 
-let src = 'http://www.laverocks.co.uk/gilslandmag/desktops/tup_800.jpg'
-let result = loadImg(src)
-result.then(img => {
-  console.log((img as any).width)
-  return img
-}).then(img => {
-  console.log((img as any).height)
-}).catch(err => {
-  console.error(err)
-})
+class FastCar extends Car {
+  price
+  constructor(name, number) {
+    super(name, number)
+    this.price = 1
+  }
+}
 
+class SpecialCar extends Car {
+  price
+  constructor(name, number) {
+    super(name, number)
+    this.price = 2
+  }
+}
+
+class Trip {
+  car
+  constructor(car) {
+    this.car = car
+  }
+  showCarInfo() {
+    console.log(`THe car is ${this.car.name}, number is ${this.car.number}`)
+  }
+  showFare() {
+    console.log(`THe price is ${this.car.price * 5}`)
+  }
+}
+
+let car = new FastCar('wuling', 001)
+let trip = new Trip(car)
+trip.showCarInfo()
+trip.showFare()
