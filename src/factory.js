@@ -27,7 +27,7 @@ p.fn2()
 
 
 
-
+// ---------场景--------
 // React.createElement
 class Vnode {
   // ...

@@ -1,25 +1,46 @@
-// 工厂模式
+// 单例模式
 
-class Product {
-  constructor(name) {
-    this.name = name
+
+
+// 模拟登录框
+class LoginForm {
+  constructor() {
+    this.state = 'hide'
   }
-  fn1() {
-    console.log(`fn1`)
+  show() {
+    if(this.state==='show') {
+      alert('already showed')
+      return
+    }
+    this.state = 'show'
+    console.log('showed successfuly')
   }
-  fn2() {
-    console.log(`fn2`)
+  hide() {
+    if(this.state==='hide') {
+      alert('already hidden')
+      return
+    }
+    this.state = 'hide'
+    console.log('hidden successfuly')
   }
+
 }
 
-class Creator {
-  create(name) {
-    return new Product(name)
+LoginForm.getInstance = (function() {
+  let instance
+  return function() {
+    if(!instance) {
+      instance = new LoginForm()
+    }
+    return instance
   }
-}
+}())
 
 // test
-let creator = new Creator()
-let p = creator.create('p')
-p.fn1()
-p.fn2()
+let login1 = LoginForm.getInstance()
+login1.show()
+
+let login2 = LoginForm.getInstance()
+login2.show()
+
+console.log(login1===login2)

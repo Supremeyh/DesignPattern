@@ -173,7 +173,7 @@ module.exports = {
 类，即模板，通过模板实例化很多对象，和es5的构造函数原理相同,里面放属性和方法
 对象（实例），通过类可以赋值给很多对象
 ```JavaScript
-// src/object-oriented.ts
+// object-oriented.ts
 class Person {
   constructor(name, age) {
     this.name = name
@@ -192,7 +192,7 @@ Lee.speak()
 
 继承，子类继承父类。继承可将公共方法抽离出来，提高复用，减少冗余，这是软件设计最基础和最高效的方式
 ```JavaScript
-// src/object-oriented.ts
+// object-oriented.ts
 class Person {
   constructor(name, age) {
     this.name = name
@@ -224,7 +224,7 @@ public 完全开放，默认关键字
 protectted 受保护的，自己和子类使用
 private 私有的，不对外开放
 ```JavaScript
-// src/object-oriented.ts
+// object-oriented.ts
 class People {
   name 
   age
@@ -265,7 +265,7 @@ Long.speak()
 
 多态，同一接口的不同实现。简单来讲就是父类定义一个接口，子类实现不同的功能。保持子类的开放性和灵活性、面向接口编程(不用管子类如何实现，看父类有多少接口)
 ```js
-// src/object-oriented.ts
+// /object-oriented.ts
 class People {
   name
   constructor(name) {
@@ -306,7 +306,7 @@ b.sayHi()
 #### 应用举例
 以jQuery为例
 ```js
-// src/jQuery.ts
+// /jQuery.ts
 class jQuery {
   length
   selector
@@ -420,17 +420,13 @@ js中使用较少（没有接口概念，弱类型）
 3、行为型（涵盖了开发中的一些常用的行为，如何设计才能满足需求）
 观察者模式、迭代器模式、策略模式、模板方法模式、职责连模式、状态模式、命令模式、备忘录模式、中介者模式、访问者模式、解释器模式
 
-#### 工厂模式
+#### 工厂模式 Factory
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
 
 举例，去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
 
-场景: 
- jQuery的$，其实就是返回的new jQuery.fn.init(selector, context)
- React.createElement
- vue 异步组件
 ```js
-// src/factory.js
+// factory.js
 class Product {
   constructor(name) {
     this.name = name
@@ -455,7 +451,10 @@ let p = creator.create('p')
 p.fn1()
 p.fn2()
 ```
-React.createElement 
+场景: 
+ jQuery的$，其实就是返回的new jQuery.fn.init(selector, context)
+ React.createElement
+ vue 异步组件
 ```js
 // React.createElement
 class Vnode(tag, attrs, children) {
@@ -467,8 +466,86 @@ React.createElement = function(tag, attrs, children)  {
 }
 ```
 
+#### 单例模式 Sigleton
+单例就是保证一个类只有一个实例，实现的方法一般是先判断实例存在与否，如果存在直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。在js里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象
+
+场景举例:
+jquery中的$是单例模式， jQuery只有一个$
+购物车
+登录框
+vuex和redux中的store
+```js
+// singleton.js
+class SingleObject {
+  // 在这里面定义的方法非静态，初始化实例时，都会有 saySth()这个方法
+  saySth() {
+    console.log('blabla')
+  }
+
+}
+
+// 静态方法，将方法挂载到class上面,无论SingleObject被new多少个，getInstance的方法只有一个
+SingleObject.getInstance = (function() {
+  let instance
+  return function() {
+    // 如果没有则赋值，初始化
+    if(!instance) {
+      instance = new SingleObject()
+    }
+    // 有的话直接返回
+    return instance
+  }
+}())
+
+
+// test
+// 这里只能使用静态函数getInstance,不能使用new SingleObject()
+let obj1 = SingleObject.getInstance()
+obj1.saySth()
+let obj2 = SingleObject.getInstance()
+obj2.saySth()
+
+console.log(obj1===obj2) // 测试是否一个实例  true
+```
+场景:
+ jquery中的$是单例模式， jQuery只有一个$
+ 模拟登录框
+ vuex和redux中的store
+```js
+// jquery中的$是单例模式， jQuery只有一个$
+if(window.jQuery!=null) {
+  return window.jQuery
+} else {
+  // 初始化
+}
+
+// 模拟登录框
+// 类似上面的SingleObject
+```
+
+
 ####  结合核心技术
 ####  结合框架运用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -482,7 +559,7 @@ React.createElement = function(tag, attrs, children)  {
 UML 类图
 ![UML类图](/static/img/UML1.jpg)
 ```js
-// src/review1.js
+// /review1.js
 class Car {
   constructor(name, number) {
     this.name = name
@@ -531,7 +608,7 @@ trip.showFare()
 UML 类图
 ![UML类图](/static/img/UML2.jpg)
 ```js
-// src/review2.js
+// /review2.js
 class Park {
   constructor(floors) {
     this.floors = floors || []
