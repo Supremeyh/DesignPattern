@@ -423,7 +423,7 @@ js中使用较少（没有接口概念，弱类型）
 #### 工厂模式 Factory
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
 
-举例，去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
+举例: 去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
 
 ```js
 // factory.js
@@ -469,11 +469,7 @@ React.createElement = function(tag, attrs, children)  {
 #### 单例模式 Sigleton
 单例就是保证一个类只有一个实例，实现的方法一般是先判断实例存在与否，如果存在直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。在js里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象
 
-场景举例:
-jquery中的$是单例模式， jQuery只有一个$
-购物车
-登录框
-vuex和redux中的store
+举例: jquery中的$是单例模式， jQuery只有一个$、 购物车、 登录框、 vuex和redux中的store
 ```js
 // singleton.js
 class SingleObject {
@@ -522,6 +518,83 @@ if(window.jQuery!=null) {
 // 模拟登录框
 // 类似上面的SingleObject
 ```
+#### 适配器模式
+将旧接口和使用者进行分离，使用一个类为不同类方法提供统一的适配转换接口，从而达到适配的目的，所以核心思想也就是为了解决接口不兼容问题。
+
+举例:  新旧接口不兼容、封装旧接口、插头转换、兼容没有jquery的ajax方法、vue的computed
+```js
+// adpate.js
+class Adpatee {
+  specificRequest() {
+    return '俄罗斯标准插头'
+  }
+}
+
+class Target {
+  constructor() {
+    this.adaptee = new Adpatee()
+  }
+  request() {
+    let info = this.adaptee.specificRequest()
+    return `${info} - 转换器 - 中国标准插头`
+  }
+}
+// test
+let target = new Target()
+let res = target.request()
+console.log(res)
+
+
+// 注意，Target也可以写成
+class Target1 {
+  constructor(adaptee) {
+    this.adaptee = adaptee
+  }
+  request() {
+    let info = this.adaptee.specificRequest()
+    return `${info} - 转换器 - 中国标准插头`
+  }
+}
+// test
+let res1 = new Target1(new Adpatee()).request()
+console.log(res1)
+```
+适配器模式的出现，都是为了去解决一些不得不兼容的接口或者方法，其实这样的例子有很多：比如我们写一个兼容没有jquery的ajax方法
+```js
+var $ = {
+  ajax: function(options) {
+    return ajax(options) 
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ####  结合核心技术
