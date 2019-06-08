@@ -423,9 +423,46 @@ js中使用较少（没有接口概念，弱类型）
 #### 工厂模式
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
 
-示例．去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
+举例．去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
 
+场景: jQuery-$('div')、 React.createElement、vue 异步组件
+```js
+// src/factory.js
+class Product {
+  constructor(name) {
+    this.name = name
+  }
+  fn1() {
+    console.log(`fn1`)
+  }
+  fn2() {
+    console.log(`fn2`)
+  }
+}
 
+class Creator {
+  create(name) {
+    return new Product(name)
+  }
+}
+
+// test
+let creator = new Creator()
+let p = creator.create('p')
+p.fn1()
+p.fn2()
+```
+React.createElement 
+```js
+// React.createElement
+class Vnode(tag, attrs, children) {
+  // ...
+}
+
+React.createElement = function(tag, attrs, children)  {
+  return new Vnode(tag, attrs, children)
+}
+```
 
 ####  结合核心技术
 ####  结合框架运用
