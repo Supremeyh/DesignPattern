@@ -423,9 +423,12 @@ js中使用较少（没有接口概念，弱类型）
 #### 工厂模式
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
 
-举例．去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
+举例，去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
 
-场景: jQuery-$('div')、 React.createElement、vue 异步组件
+场景: 
+ jQuery的$，其实就是返回的new jQuery.fn.init(selector, context)
+ React.createElement
+ vue 异步组件
 ```js
 // src/factory.js
 class Product {
