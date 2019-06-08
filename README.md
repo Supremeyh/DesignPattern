@@ -173,7 +173,7 @@ module.exports = {
 类，即模板，通过模板实例化很多对象，和es5的构造函数原理相同,里面放属性和方法
 对象（实例），通过类可以赋值给很多对象
 ```JavaScript
-// src/index.js
+// src/object-oriented.ts
 class Person {
   constructor(name, age) {
     this.name = name
@@ -192,6 +192,7 @@ Lee.speak()
 
 继承，子类继承父类。继承可将公共方法抽离出来，提高复用，减少冗余，这是软件设计最基础和最高效的方式
 ```JavaScript
+// src/object-oriented.ts
 class Person {
   constructor(name, age) {
     this.name = name
@@ -223,7 +224,7 @@ public 完全开放，默认关键字
 protectted 受保护的，自己和子类使用
 private 私有的，不对外开放
 ```JavaScript
-// src/index.ts
+// src/object-oriented.ts
 class People {
   name 
   age
@@ -264,6 +265,7 @@ Long.speak()
 
 多态，同一接口的不同实现。简单来讲就是父类定义一个接口，子类实现不同的功能。保持子类的开放性和灵活性、面向接口编程(不用管子类如何实现，看父类有多少接口)
 ```js
+// src/object-oriented.ts
 class People {
   name
   constructor(name) {
@@ -304,7 +306,7 @@ b.sayHi()
 #### 应用举例
 以jQuery为例
 ```js
-// src/index.ts
+// src/jQuery.ts
 class jQuery {
   length
   selector
@@ -418,6 +420,12 @@ js中使用较少（没有接口概念，弱类型）
 3、行为型（涵盖了开发中的一些常用的行为，如何设计才能满足需求）
 观察者模式、迭代器模式、策略模式、模板方法模式、职责连模式、状态模式、命令模式、备忘录模式、中介者模式、访问者模式、解释器模式
 
+#### 工厂模式
+工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
+
+示例．去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
+
+
 
 ####  结合核心技术
 ####  结合框架运用
@@ -434,7 +442,7 @@ js中使用较少（没有接口概念，弱类型）
 UML 类图
 ![UML类图](/static/img/UML1.jpg)
 ```js
-// src/index.js
+// src/review1.js
 class Car {
   constructor(name, number) {
     this.name = name
@@ -474,7 +482,7 @@ trip.showCarInfo()
 trip.showFare()
 ```
 #### 第二题
-某停车场，分 3 层，每层 1 00 车位
+某停车场，分 3 层，每层 100 车位
 每个车位都能监控到车辆的驶入和离开
 车辆进入前，显示每层的空余车位数量
 车辆进入时，摄像头可识别车牌号和时间
@@ -483,6 +491,7 @@ trip.showFare()
 UML 类图
 ![UML类图](/static/img/UML2.jpg)
 ```js
+// src/review2.js
 class Park {
   constructor(floors) {
     this.floors = floors || []
