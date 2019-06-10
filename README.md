@@ -599,7 +599,6 @@ circle.draw()
 
 let dec = new Decorator(circle)
 dec.draw()
-
 ```
 
 ES7装饰器，考虑到浏览器兼容问题，需要安装插件支持
@@ -623,17 +622,17 @@ npm i @babel/plugin-proposal-decorators--save-dev
 
 // 之后就可以使用装饰器了
 @test
-class Demo {}
+class A {}
 
 function test(flag) {
   flag.val = true
 }
 
-alert(Demo.val)
+alert(A.val)
 
 // 还可以加参数
 @test(true)
-class Demo {}
+class B {}
 
 function test(flag) {
   // 这里面返回一个函数,装饰器返回的都是一个函数
@@ -642,15 +641,15 @@ function test(flag) {
   }
 }
 
-alert(Demo.val)
+alert(B.val)
 
 
 // 装饰器的原理
 @decorator  // @关键字使用装饰器
-class A {}
+class C {}
 // 等同于
-class A {}
-A = decorator(A) || A  // 将A定义成decorator函数执行一遍的返回值(相当于A在decorator执行了一遍)，没有的话返回A
+class C {}
+C = decorator(C) || C  // 将A定义成decorator函数执行一遍的返回值(相当于A在decorator执行了一遍)，没有的话返回A
 ```
 装饰类 - mixin
 ```js
@@ -667,12 +666,35 @@ const Foo = {
 }
 
 @mixins(Foo)
-class MyClass {}
+class D {}
 
-let obj = new MyClass()
+let obj = new D()
 obj.foo()
 ```
-装饰方法 - 
+装饰方法 - 增加打印日志
+```js
+// log
+class Math {
+  @log
+  add(a, b) {
+    return a+b
+  }
+}
+
+// 修饰器第一个参数是类的原型对象，修饰器的本意是要“修饰”类的实例，但是这个时候实例还没生成，所以只能去修饰原型（这不同于类的修饰，那种情况时target参数指的是类本身）；第二个参数是所要修饰的属性名，第三个参数是该属性的描述对象
+function log(target, name, descriptor) {
+  let oldVal = descriptor.value
+  descriptor.value = function () {
+    console.log('the result is ')
+    return oldVal.apply(this, arguments)
+  }
+  return descriptor
+}
+
+let math = new Math()
+let res_log = math.add(2, 3)
+console.log(res_log)
+```
 
 
 
