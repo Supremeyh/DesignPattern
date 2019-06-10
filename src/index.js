@@ -1,46 +1,75 @@
-class Adpatee {
-  specificRequest() {
-    return '俄罗斯标准插头'
+// class Circle {
+//   draw() {
+//     console.log('draw sth')
+//   }
+// }
+
+// class Decorator {
+//   constructor(circle) {
+//     this.circle = circle
+//   }
+//   draw() {
+//     this.circle.draw()    
+//     this.setRedBorder(circle)
+//   }
+//   setRedBorder() {
+//     console.log('decorate with red border')
+//   }
+// }
+
+// // test
+// let circle = new Circle()
+// circle.draw()
+
+// let dec = new Decorator(circle)
+// dec.draw()
+
+
+
+// ---------- 装饰器 ----------
+// @test
+// class Demo {
+
+// }
+
+// function test(flag) {
+//   flag.val = true
+// }
+
+// alert(Demo.val)
+
+
+// ---------- 还可以加参数 ----------
+// function test(flag) {
+//   return function(target) {
+//     target.val = flag
+//   }
+// }
+
+// @test(true)
+// class Demo {}
+
+// alert(Demo.val)
+
+
+// ---------- mixins ----------
+function mixins(...list) {
+  // return一个函数，装饰器都是一个函数
+  return function(target) {
+    Object.assign(target.prototype, ...list)
   }
 }
 
-class Target {
-  constructor() {
-    this.adaptee = new Adpatee()
-  }
-  request() {
-    let info = this.adaptee.specificRequest()
-    return `${info} - 转换器 - 中国标准插头`
+const Foo = {
+  foo() {
+    alert('foo')
   }
 }
 
-// test
-let target = new Target()
-let res = target.request()
-console.log(res)
 
+// 通过@关键字使用装饰器，将Foo里面的属性和并到target.prototype上
+@mixins(Foo)
+class MyClass {}
 
-// 注意，Target也可以写成
-class Target1 {
-  constructor(adaptee) {
-    this.adaptee = adaptee
-  }
-  request() {
-    let info = this.adaptee.specificRequest()
-    return `${info} - 转换器 - 中国标准插头`
-  }
-}
-
-let res1 = new Target1(new Adpatee()).request()
-console.log(res1)
-
-
-
-
-// ---------- 场景 ----------
-// 做一层适配器，写一个兼容没有jquery的ajax方法
-var $ = {
-  ajax: function(options) {
-    return ajax(options) 
-  }
-}
+let obj = new MyClass()
+obj.foo()

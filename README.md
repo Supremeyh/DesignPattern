@@ -420,7 +420,8 @@ js中使用较少（没有接口概念，弱类型）
 3、行为型（涵盖了开发中的一些常用的行为，如何设计才能满足需求）
 观察者模式、迭代器模式、策略模式、模板方法模式、职责连模式、状态模式、命令模式、备忘录模式、中介者模式、访问者模式、解释器模式
 
-#### 工厂模式 Factory
+#### 创建型
+##### 工厂模式 Factory
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
 
 举例: 去购买汉堡，直接点餐、取餐，不会自己亲手做，商店要 封装 做汉堡的工作，做好直接给消费者。
@@ -466,7 +467,7 @@ React.createElement = function(tag, attrs, children)  {
 }
 ```
 
-#### 单例模式 Sigleton
+##### 单例模式 Sigleton
 单例就是保证一个类只有一个实例，实现的方法一般是先判断实例存在与否，如果存在直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。在js里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象
 
 举例: jquery中的$是单例模式， jQuery只有一个$、 购物车、 登录框、 vuex和redux中的store
@@ -518,7 +519,7 @@ if(window.jQuery!=null) {
 // 模拟登录框
 // 类似上面的SingleObject
 ```
-#### 适配器模式
+##### 适配器模式 Adpate
 将旧接口和使用者进行分离，使用一个类为不同类方法提供统一的适配转换接口，从而达到适配的目的，所以核心思想也就是为了解决接口不兼容问题。
 
 举例:  新旧接口不兼容、封装旧接口、插头转换、兼容没有jquery的ajax方法、vue的computed
@@ -567,9 +568,111 @@ var $ = {
   }
 }
 ```
+##### 装饰器模式 Decorator
+既能使用原有的功能，又能使用装饰后的功能。为对象添加新功能，不改变其原有的结构和功能。
+
+举例，比如手机可以打电话、发短信，我们在原有的基础上装个保护壳，防止摔落时损坏
+```js
+// decorator.js
+class Circle {
+  draw() {
+    console.log('draw sth')
+  }
+}
+
+class Decorator {
+  constructor(circle) {
+    this.circle = circle
+  }
+  draw() {
+    this.circle.draw()    
+    this.setRedBorder(circle)
+  }
+  setRedBorder() {
+    console.log('decorate with red border')
+  }
+}
+
+// test
+let circle = new Circle()
+circle.draw()
+
+let dec = new Decorator(circle)
+dec.draw()
+
+```
+
+ES7装饰器，考虑到浏览器兼容问题，需要安装插件支持
+```js
+npm i @babel/plugin-proposal-decorators--save-dev
+
+// package.json
+"plugins": [
+  ["@babel/plugin-proposal-decorators", {"legacy": true}],  // 要放在第一行
+  ["@babel/plugin-proposal-class-properties", {"loose": true}]
+]
+
+// 对babel进行配置
+// Experimental support for decorators is a feature that is subject to change in a future release
+// fix: In VSCode, Add "javascript.implicitProjectConfig.experimentalDecorators": true to the file and it should fix it. 
+// tsconfig.json
+"compilerOptions": {
+  "experimentalDecorators": true  // 启用实验性的ES装饰器
+}
 
 
+// 之后就可以使用装饰器了
+@test
+class Demo {}
 
+function test(flag) {
+  flag.val = true
+}
+
+alert(Demo.val)
+
+// 还可以加参数
+@test(true)
+class Demo {}
+
+function test(flag) {
+  // 这里面返回一个函数,装饰器返回的都是一个函数
+  return function(target) {
+    target.val = flag
+  }
+}
+
+alert(Demo.val)
+
+
+// 装饰器的原理
+@decorator  // @关键字使用装饰器
+class A {}
+// 等同于
+class A {}
+A = decorator(A) || A  // 将A定义成decorator函数执行一遍的返回值(相当于A在decorator执行了一遍)，没有的话返回A
+```
+装饰类 - mixin
+```js
+function mixins(...list) {
+  return function(target) {
+    Object.assign(target.prototype, ...list)
+  }
+}
+
+const Foo = {
+  foo() {
+    alert('foo')
+  }
+}
+
+@mixins(Foo)
+class MyClass {}
+
+let obj = new MyClass()
+obj.foo()
+```
+装饰方法 - 
 
 
 
