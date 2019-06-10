@@ -568,6 +568,7 @@ var $ = {
   }
 }
 ```
+
 ##### 装饰器模式 Decorator
 既能使用原有的功能，又能使用装饰后的功能。为对象添加新功能，不改变其原有的结构和功能。
 
@@ -694,6 +695,24 @@ function log(target, name, descriptor) {
 let math = new Math()
 let res_log = math.add(2, 3)
 console.log(res_log)
+```
+推荐使用 core-decorators 库
+```js
+npm i core-decorators --save
+
+
+// core-decorators
+import { readonly } from 'core-decorators'
+class CoreDecorators {
+  @readonly
+  show() {
+    return 'it is read only'
+  }
+}
+
+let cd = new CoreDecorators()
+console.log(cd.show())
+cd.show = function() {}  // Cannot assign to read only property 'name' of object '#<CoreDecorators>'
 ```
 
 

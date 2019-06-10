@@ -79,29 +79,29 @@ obj.foo()
 
 
 // readonly descriptor
-function readonly(target, name, descriptor) {  
-  descriptor.writable = false
-  return descriptor
-}
+// function readonly(target, name, descriptor) {  
+//   descriptor.writable = false
+//   return descriptor
+// }
 
-class D {
-  constructor() {
-    this.a = 'a'
-    this.b = 'b'
-  }
+// class D {
+//   constructor() {
+//     this.a = 'a'
+//     this.b = 'b'
+//   }
 
-  @readonly
-  name() {
-    return `${this.a} - ${this.b}`
-  }
-}
+//   @readonly
+//   name() {
+//     return `${this.a} - ${this.b}`
+//   }
+// }
 
 
-let p = new D()
-console.log(p.name())
-p.name = function() {
-  // 
-}
+// let p = new D()
+// console.log(p.name())
+// p.name = function() {
+//   // 
+// }
 
 
 // log
@@ -125,3 +125,18 @@ function log(target, name, descriptor) {
 let math = new Math()
 let res_log = math.add(2, 3)
 console.log(res_log)
+
+
+
+// core-decorators
+import {readonly} from 'core-decorators'
+class CoreDecorators {
+  @readonly
+  show() {
+    return 'it is read only'
+  }
+}
+
+let cd = new CoreDecorators()
+console.log(cd.show())
+cd.show = function() {}  // Cannot assign to read only property 'name' of object '#<CoreDecorators>'
