@@ -820,6 +820,33 @@ console.log(agent.customPrice)
 装饰器模式：扩展功能，原有功能不变且可直接使用
 代理模式：显示原有功能，但是经过限制或阉割之后的
 
+##### 外观模式 Facade
+为子系统中的一组接口提供了一个高层接口，使用者使用了这个高层接口
+
+不符合单一职责和开放封闭原则，因此谨慎使用，不可滥用（不要为了设计而设计，而是为了使用而设计）
+```js
+// facade.js
+function facade(ele, type, selector, fn) {
+  if(fn==null) {
+    fn = selector
+    selector = null
+  }
+  // ...
+}
+
+// 调用
+facade(ele, 'click', '#div1', fn)
+facade(ele, 'click', fn)
+```
+
+
+
+
+
+
+
+
+
 
 
 
