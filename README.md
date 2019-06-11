@@ -727,15 +727,92 @@ console.log(cd.show())
 cd.show = function() {}  // Cannot assign to read only property 'name' of object '#<CoreDecorators>'
 ```
 
+##### 代理模式 Proxy
+使用者无法直接访问目标对象，中间加代理，通过代理做授权和控制。要注意的是，提供的方法一定要和服务端默认的方法名字是一样的。
 
+举例: 科学上网(无论开不开代理，要访问的网址一直没有变，唯一的区别是，没有开代理的情况，无法直接访问到。如果开了代理，会通过代理去访问数据，再返回)、明星经纪人、nginx的正向代理和反向代理
 
+使用场景: 网页事件代理、this的指向、$.proxy、ES6 Proxy
+```js
+// 代理模式
+class RealSite {
+  constructor(fileName) {
+    this.fileName = fileName
+    this.loadFromDisk()
+  }
+  loadFromDisk() {
+    console.log(`loading... ${this.fileName}`)
+  }
+  display() {
+    console.log(`display... ${this.fileName}`)
+  }
+}
 
+class ProxySite {
+  constructor(fileName) {
+    this.realFile = new RealSite(fileName)
+  }
+  display() {
+    this.realFile.display()
+  }
+}
 
+// test
+let proxyFile = new ProxySite('1.txt')
+proxyFile.display()
+```
+jquery 的 $.proxy 
+```js
+// 使用 $.proxy 
+$('#div').click(function() {
+  setTimeout($.proxy(function() {
+    $(this).addClass('blue')
+  }, this), 1000);
+})
+// 等同于
+$('#div').click(function() {
+  let _this = this
+  setTimeout(() => {
+    $(_this).addClass('blue')
+  }, 1000);
+})
+```
+ES6 Proxy 实现 明星经纪人
+```js
+// 明星
+let star = {
+  name: 'Justin Bieber',
+  age: 24,
+  phone: 666
+}
 
+// 经纪人
+let agent = new Proxy(star, {
+  get: function(target, key) {
+    if(key==='phone') {
+      return 888
+    }
+    if(key==='price') {
+      return 12000
+    }
+    return target[key]
+  },
+  set: function(target, key, value) {
+    if(key==='customPrice') {
+      if(value<10000) {
+        throw Error('too low price')
+      } else {
+        target[key] = value
+      }
+    }
+  }
+})
 
-
-
-
+// test
+console.log(agent.name, agent.phone, agent.price)
+agent.customPrice = 20001
+console.log(agent.customPrice)
+```
 
 
 
