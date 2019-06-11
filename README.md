@@ -645,12 +645,24 @@ function test(flag) {
 alert(B.val)
 
 
-// 装饰器的原理
+// 装饰器的原理 - 装饰类
 @decorator  // @关键字使用装饰器
 class C {}
 // 等同于
 class C {}
 C = decorator(C) || C  // 将A定义成decorator函数执行一遍的返回值(相当于A在decorator执行了一遍)，没有的话返回A
+
+// 装饰器的原理 - 装饰方法
+class C{
+  @decorator
+  props(){}
+}
+props = decorator(C.prototype, 'props', {
+  value: props,
+  enumerable: false,
+  configurable: true,
+  writable: true
+})
 ```
 装饰类 - mixin
 ```js
@@ -696,7 +708,7 @@ let math = new Math()
 let res_log = math.add(2, 3)
 console.log(res_log)
 ```
-推荐使用 core-decorators 库
+推荐使用 core-decorators 库，有诸如 readonly、deprecate 等装饰类和方法
 ```js
 npm i core-decorators --save
 
