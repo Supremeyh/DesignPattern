@@ -813,7 +813,12 @@ console.log(agent.name, agent.phone, agent.price)
 agent.customPrice = 20001
 console.log(agent.customPrice)
 ```
+代理模式、适配模式、装饰器模式三者的区别
+适配器：提供一个不同的接口（进行格式的转换）
+代理模式：提供一模一样的接口（无权使用目标类，所以进行代理）
 
+装饰器模式：扩展功能，原有功能不变且可直接使用
+代理模式：显示原有功能，但是经过限制或阉割之后的
 
 
 
