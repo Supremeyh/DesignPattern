@@ -1,3 +1,5 @@
+// 观察者模式
+
 // 主题，保存状态，接收状态变化，状态变化后触发所有观察者对象
 class Subject {
   constructor() {
@@ -43,6 +45,7 @@ let obs1 = new Observer('obs1', sub)
 let obs2 = new Observer('obs2', sub)
 sub.setState(2)
 sub.setState(3)
+
 
 
 

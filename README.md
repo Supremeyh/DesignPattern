@@ -843,10 +843,9 @@ facade(ele, 'click', fn)
 
 #### 行为型
 ##### 观察者模式 / 订阅发布模式
-一堆观察者或者订阅者去观察或者订阅一个主题，当这个主题变化时，就会通知所监听或者观察它订阅者。
+一堆观察者或者订阅者去观察或者订阅一个主题，当这个主题变化时，就会通知所监听或者观察它的订阅者
 
-发布、订阅（定好东西，付了款，会有人上门送，比如订牛奶、报纸啊等）
-一对多（可以同时订购牛奶，报纸，两者之间没什么冲突）
+发布、订阅（订好咖啡，会有人上门送），一对 N（可以同时订购牛奶，报纸等，之间无冲突）
 ```js
 // 主题，保存状态，接收状态变化，状态变化后触发所有观察者对象
 class Subject {
@@ -894,8 +893,37 @@ let obs2 = new Observer('obs2', sub)
 sub.setState(2)
 sub.setState(3)
 ```
+场景
+1、网页事件绑定，所有的事件监听都是观察者模式，所有事件写好(订阅)之后，等待被执行
+```js
+<button id="bth">btn</button>
+$('#btn').click(() => {}) // 当按钮点击触发
+```
+2、Promise then, promise 状态变化resolve reject pending
+3、$.Callbacks() 
+4、一切生命周期或者hook之类的函数都是观察者
+5、nodejs 中应用广泛，如 自定义事件 event、stream、readline、处理http请求、vue和react组件声明周期触发、watch
+```js
+// EventEmitter
+const EventEmitter = require('events').EventEmitter
 
+class Poodle extends EventEmitter {
+  constructor(name) {
+    super()
+    this.name = name
+  }
+}
 
+let poodle = new Poodle('poodle')
+poodle.on('bark', function() {
+  console.log(`${this.name} bark`)
+})
+poodle.on('bark', function() {
+  console.log(`${this.name} bark again`)
+})
+
+poodle.emit('bark')
+```
 
 
 
