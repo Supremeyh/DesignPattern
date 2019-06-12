@@ -415,7 +415,7 @@ js中使用较少（没有接口概念，弱类型）
 工厂模式（工场方法模式、抽象工场模式、建造者模式）、单例模式、原型模式
 
 2、组合型（对象和类是怎样的组合形式，一个类不一定能满足需求，通过组合的形式完成）
-单例模式、适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式
+适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式
 
 3、行为型（涵盖了开发中的一些常用的行为，如何设计才能满足需求）
 观察者模式、迭代器模式、策略模式、模板方法模式、职责连模式、状态模式、命令模式、备忘录模式、中介者模式、访问者模式、解释器模式
@@ -519,6 +519,8 @@ if(window.jQuery!=null) {
 // 模拟登录框
 // 类似上面的SingleObject
 ```
+
+#### 组合型
 ##### 适配器模式 Adpate
 将旧接口和使用者进行分离，使用一个类为不同类方法提供统一的适配转换接口，从而达到适配的目的，所以核心思想也就是为了解决接口不兼容问题。
 
@@ -839,6 +841,59 @@ facade(ele, 'click', '#div1', fn)
 facade(ele, 'click', fn)
 ```
 
+#### 行为型
+##### 观察者模式 / 订阅发布模式
+一堆观察者或者订阅者去观察或者订阅一个主题，当这个主题变化时，就会通知所监听或者观察它订阅者。
+
+发布、订阅（定好东西，付了款，会有人上门送，比如订牛奶、报纸啊等）
+一对多（可以同时订购牛奶，报纸，两者之间没什么冲突）
+```js
+// 主题，保存状态，接收状态变化，状态变化后触发所有观察者对象
+class Subject {
+  constructor() {
+    this.state = 0
+    this.observers = []
+  }
+  getState() {
+    return this.state
+  }
+  setState(state) {
+    this.state = state
+    this.notifyAllObservsers()
+  }
+  // 循环所有的观察者
+  notifyAllObservsers() {
+    this.observers.forEach(observer => {
+      // 遍历的每个元素执行update方法
+      observer.update()
+    })
+  }
+  // 添加一个新的观察者
+  attach(observer) {
+    this.observers.push(observer)
+  }
+}
+
+// 观察者/订阅者, 等待被触发
+class Observer {
+  constructor(name, subject) {
+    this.name = name
+    this.subject = subject
+    // 将自己添加进去，把观察者添加到主题当中
+    this.subject.attach(this)
+  }
+  update() {
+    console.log(`name: ${this.name} - state: ${this.subject.getState()}`)
+  }
+}
+
+// test
+let sub = new Subject()
+let obs1 = new Observer('obs1', sub)
+let obs2 = new Observer('obs2', sub)
+sub.setState(2)
+sub.setState(3)
+```
 
 
 
