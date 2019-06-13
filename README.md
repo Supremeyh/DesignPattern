@@ -420,6 +420,9 @@ js中使用较少（没有接口概念，弱类型）
 3、行为型（涵盖了开发中的一些常用的行为，如何设计才能满足需求）
 观察者模式、迭代器模式、策略模式、模板方法模式、职责连模式、状态模式、命令模式、备忘录模式、中介者模式、访问者模式、解释器模式
 
+4、其他设计模式(从上面三类中不常用的抽取出而来)
+原型模式、桥接模式、组合模式、享元模式、策略模式、模板方法模式、职责链模式、命令模式、备忘录模式、中介者模式、访问者模式
+
 #### 创建型
 ##### 工厂模式 Factory
 工厂模式的作用就有一个，将生成对象的new 方法用一个函数封装起来。
@@ -1149,6 +1152,144 @@ result.then(function() {
     console.log('fail2')  
 })
 ```
+
+#### 其他设计模式
+创建型(原型模式)
+组合型(桥接模式、组合模式、享元模式) 
+行为型(策略模式、模板方法模式、职责链模式、命令模式、备忘录模式、中介者模式、访问者模式、 解释器模式)
+##### 原型模式
+clone自己，生成一个新对象（重新new一个对象，开销相对较大）
+Object.create(proto)
+```js
+const prototype = {
+  getName() {
+    return this.first + this.last
+  },
+  sayHi() {
+    console.log('hello')
+  }
+}
+
+// 基于原型创建aa
+let aa = Object.create(prototype)
+aa.first = 'a'
+aa.last = 'a'
+let name = aa.getName()
+console.log(name)
+
+// 基于原型创建bb
+let bb = Object.create(prototype)
+bb.first = 'b'
+bb.last = 'b'
+bb.sayHi()
+```
+
+##### 桥接模式
+用于把抽象化和实现化解耦, 使得二者可以独立变化。 
+如画红色/黄色的圆形/三角形，把颜色和形状分开
+```js
+// 普通实现
+class ColorShape {
+  yellowCircle() {
+    console.log('yellow circle')
+  }
+  redCircle() {
+    console.log('red circle')
+  }
+  yellowTriangle() {
+    console.log('yellow triangle')
+  }
+  redTriangle() {
+    console.log('red triangle')
+  }
+}
+// 使用桥接模式
+class Color {
+  constructor(name) {
+    this.name = name
+  }
+}
+
+class Shape {
+  constructor(name, color) {
+    this.name = name
+    this.color = color
+  }
+  draw() {
+    console.log(`${this.color.name} ${this.name}`)
+  }
+}
+
+// test
+let red = new Color('red')
+let yellow = new Color('yellow')
+let circle = new Shape('circle', red)
+circle.draw()
+
+let triangle = new Shape('triangle', yellow)
+triangle.draw()
+```
+##### 组合模式
+生成树形结构，表示"整体—部分"关系, 让整体和部分都具有一致的操作方式和数据结构
+举例，文件夹的文件、DOM Node
+
+##### 享元模式
+共享内存（主要考虑内存，而非效率），相同数据，共享使用
+举例，事件代理到父级(子数据要相同、数量很多)
+
+##### 策略模式
+不同策略（执行方式）分开处理，避免出现大量 if...else
+```js
+class User {
+  constructor(type) {
+    this.type = type
+  }
+  buy() {
+    if(this.type==='ordinary') {
+      console.log('ordinary')
+    } else if(this.type==='member') {
+      console.log('member')
+    } if(this.type==='vip') {
+      console.log('vip')
+    }
+  }
+}
+
+// test
+let user1 = new User('ordinary')
+user1.buy()
+let user2 = new User('member')
+user2.buy()
+let user3 = new User('vip')
+user3.buy()
+
+// 使用策略模式
+class OrdinaryUser {
+  buy() {
+    console.log('ordinary')
+  }
+}
+class MemberUser {
+  buy() {
+    console.log('member')
+  }
+}
+class VipUser {
+  buy() {
+    console.log('vip')
+  }
+}
+
+let user4 = new OrdinaryUser()
+user4.buy()
+let user5 = new MemberUser()
+user5.buy()
+let user6 = new VipUser()
+user6.buy()
+```
+
+
+
 
 
 
