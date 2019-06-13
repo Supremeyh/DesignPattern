@@ -1287,7 +1287,21 @@ user5.buy()
 let user6 = new VipUser()
 user6.buy()
 ```
+##### 模板方法模式
+通过一个方法将多个方法其封装合并，统一输出，调用时使用该方法即可
+```js
+class Template {
+  handle() {
+    this.handle1()
+    this.handle2()
+    this.handle3()
+  }
 
+  handle1() {}
+  handle2() {}
+  handle3() {}
+}
+```
 
 
 
