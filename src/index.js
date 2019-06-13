@@ -139,3 +139,30 @@ class Template {
   handle3() {}
 }
 
+
+// ------------ 职责链模式 ------------
+// 文件审批，依次市长、州长、总统
+class ResponsibilityChain {
+  constructor(name) {
+    this.name = name
+    this.nextChain = null
+  }
+  setNextChain(chain) {
+    this.nextChain = chain
+
+  }
+  handle() {
+    console.log(`${this.name} 审批`)
+    if(this.nextChain != null) {
+      this.nextChain.handle()
+    }
+  }
+}
+
+// test
+let resp1 = new ResponsibilityChain('mayor')
+let resp2 = new ResponsibilityChain('governor')
+let resp3 = new ResponsibilityChain('president')
+resp1.setNextChain(resp2)
+resp2.setNextChain(resp3)
+resp1.handle()

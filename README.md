@@ -1302,7 +1302,37 @@ class Template {
   handle3() {}
 }
 ```
+##### 职责链模式
+一步操作可能分为多个职责角色来完成，把这些角色都分开，然后用一个链式串起来，将发起者和各个处理者进行隔离
 
+场景: jq 链式操作、 promise.then() 链式操作
+```js
+// 文件审批，依次市长、州长、总统
+class ResponsibilityChain {
+  constructor(name) {
+    this.name = name
+    this.nextChain = null
+  }
+  setNextChain(chain) {
+    this.nextChain = chain
+
+  }
+  handle() {
+    console.log(`${this.name} 审批`)
+    if(this.nextChain != null) {
+      this.nextChain.handle()
+    }
+  }
+}
+
+// test
+let resp1 = new ResponsibilityChain('mayor')
+let resp2 = new ResponsibilityChain('governor')
+let resp3 = new ResponsibilityChain('president')
+resp1.setNextChain(resp2)
+resp2.setNextChain(resp3)
+resp1.handle()
+```
 
 
 
