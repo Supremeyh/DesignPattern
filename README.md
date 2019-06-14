@@ -1315,7 +1315,6 @@ class ResponsibilityChain {
   }
   setNextChain(chain) {
     this.nextChain = chain
-
   }
   handle() {
     console.log(`${this.name} 审批`)
@@ -1333,7 +1332,47 @@ resp1.setNextChain(resp2)
 resp2.setNextChain(resp3)
 resp1.handle()
 ```
+##### 命令模式
+执行命令时，发布者和执行者分开，中间加入命令对象，作为中转站
 
+场景: 网页富文本编辑器操作，浏览器封装了一个命令对象，如 document.execCommand('bold')
+```js
+// 接收者
+class Receiver {
+  exec() {
+    console.log('执行命令')
+  }
+}
+
+// 传达者
+class Command {
+  constructor(receiver) {
+    this.receiver = receiver
+  }
+  cmd() {
+    console.log('传达命令')
+    this.receiver.exec()
+  }
+}
+
+// 触发者
+class Invoker {
+  constructor(commamd) {
+    this.commamd = commamd
+  }
+  invoke() {
+    console.log(`决策命令`)
+    this.commamd.cmd()
+  }
+}
+
+// test
+let soldier = new Receiver()
+let trumpeter = new Command(soldier)
+let general = new Invoker(trumpeter)
+general.invoke()
+```
+##### 备忘录模式
 
 
 

@@ -166,3 +166,44 @@ let resp3 = new ResponsibilityChain('president')
 resp1.setNextChain(resp2)
 resp2.setNextChain(resp3)
 resp1.handle()
+
+
+
+// ------------  命令模式 ------------
+// 接收者
+class Receiver {
+  exec() {
+    console.log('执行命令')
+  }
+}
+
+// 传达者
+class Command {
+  constructor(receiver) {
+    this.receiver = receiver
+  }
+  cmd() {
+    console.log('传达命令')
+    this.receiver.exec()
+  }
+}
+
+// 触发者
+class Invoker {
+  constructor(commamd) {
+    this.commamd = commamd
+  }
+  invoke() {
+    console.log(`决策命令`)
+    this.commamd.cmd()
+  }
+}
+
+// test
+let soldier = new Receiver()
+let trumpeter = new Command(soldier)
+let general = new Invoker(trumpeter)
+general.invoke()
+
+
+
