@@ -1503,7 +1503,11 @@ console.log(owner.price, renter.price)
 要点：显示购物车列表、加入购物车、从购物车删除
 模式：工厂、单例； 装饰器、观察者； 状态、模板方法、代理
 
+####  设计方案
+UML 类图
+![UML类图](/static/img/design-pattern-UML1.jpg)
 
+####  代码基础环境
 
 
 
@@ -1708,17 +1712,5 @@ park.in(car3)
 console.log('第三辆车离开')
 park.out(car3)
 ```
-
-### 综合示例
-使用 jQuery 实现模拟购物车的示例
-
-包括： 显示购物车列表、加入购物车、从购物车删除
-模式：工厂、单例； 装饰器、观察者； 状态、模板方法、代理
-
-####  设计方案
-UML 类图
-![UML类图](/static/img/design-pattern-UML1.jpg)
-
-####  代码基础环境
 
 
