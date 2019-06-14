@@ -227,3 +227,55 @@ editor.getContentFromMemento(careTaker.get(1))
 console.log(editor.getContent()) // ccc
 editor.getContentFromMemento(careTaker.get(0))
 console.log(editor.getContent()) // bbb
+
+
+// ------------ 中介者模式 ------------
+// 中介
+class Mediator {
+  constructor(owner, renter) {
+    this.owner = owner
+    this.renter = renter
+  }
+  setOwner() {
+    let price = this.renter.price
+    this.owner.setPrice(price * 10)
+  }
+  setRenter() {
+    let price = this.owner.price
+    this.renter.setPrice(price / 10)
+  }
+}
+
+// 业主
+class Owner {
+  constructor() {
+    this.price = 0
+  }
+  setPrice(price, mediator) {
+    this.price = price
+    if(mediator) {
+      mediator.setRenter()
+    }
+  }
+}
+
+// 租客
+class Renter {
+  constructor() {
+    this.price = 0
+  }
+  setPrice(price, mediator) {
+    this.price = price
+    if(mediator) {
+      mediator.setOwner()
+    }
+  }
+}
+
+let owner = new Owner()
+let renter = new Renter()
+let mediator = new Mediator(owner, renter)
+owner.setPrice(100, mediator)
+console.log(owner.price, renter.price)
+renter.setPrice(100, mediator)
+console.log(owner.price, renter.price)
