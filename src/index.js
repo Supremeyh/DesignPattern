@@ -1,5 +1,3 @@
-import { Cipher } from "crypto";
-
 // ------------ 原型模式  ------------
 const prototype = {
   getName() {
@@ -169,4 +167,63 @@ resp1.handle()
 
 
 
+// ------------ 备忘录模式 ------------
+// 状态备忘
+class Memento {
+  constructor(content) {
+    this.content = content
+  }
+  getContent() {
+    return this.content
+  }
+}
 
+// 备忘列表 内容是Memento类的实例
+class CareTaker {
+  constructor() {
+    this.list = []
+  }
+  add(memento) {
+    this.list.push(memento)
+  }
+  get(index) {
+    return this.list[index]
+  }
+}
+
+// 编辑器
+class Editor {
+  constructor() {
+    this.content = null
+  }
+  setContent(content) {
+    this.content = content
+  }
+  getContent() {
+    return this.content
+  }
+  // 保存、备份
+  saveContentToMemento() {
+    return new Memento(this.content)
+  }
+  // 恢复、撤销
+  getContentFromMemento(memento) {
+    this.content = memento.getContent()
+  }
+}
+
+// test
+let editor = new Editor()
+let careTaker = new CareTaker()
+editor.setContent('aaa')
+editor.setContent('bbb')
+careTaker.add(editor.saveContentToMemento())
+editor.setContent('ccc')
+careTaker.add(editor.saveContentToMemento())
+editor.setContent('ddd')
+
+console.log(editor.getContent()) // ddd
+editor.getContentFromMemento(careTaker.get(1))
+console.log(editor.getContent()) // ccc
+editor.getContentFromMemento(careTaker.get(0))
+console.log(editor.getContent()) // bbb
