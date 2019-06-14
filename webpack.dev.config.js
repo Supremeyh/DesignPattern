@@ -15,7 +15,12 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, './release'), // 根目录
     open: true,  // 自动打开浏览器
-    port: 8001
+    port: 8001,
+    proxy: {
+      '/api/*': {
+        target: 'http://localhost:8002' // api/* 可访问 8002 的 server
+      }
+    }
   },
   module: {
     rules: [

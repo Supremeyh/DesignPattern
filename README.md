@@ -1507,8 +1507,51 @@ console.log(owner.price, renter.price)
 UML 类图
 ![UML类图](/static/img/design-pattern-UML1.jpg)
 
-####  代码基础环境
+#### 基础环境
+```js
+// package.json
+devServer: {
+  contentBase: path.join(__dirname, './release'), // 根目录
+  open: true,  // 自动打开浏览器
+  port: 8001,
+  proxy: {
+    '/api/*': {
+      target: 'http://localhost:8002'  // devServer 将 /api/* 的请求都代理映射到 http://localhost:8002/api/* 的端口上
+    }
+  }
+}
 
+cd src
+live-server --port=8002 --host=localhost 启动 8002 的服务
+浏览器打开 http://localhost:8002/api/list.json  启动后端服务直接访问
+浏览器打开 http://localhost:8001/api/list.json  通过代理，前端访问
+
+
+npm i jquery --save  安装 jq
+
+// 整理目录，移动 原有src/ 下设计模式相关js文件，为 /release 下文件
+
+// index.html  替换原有内容 为 #app 的节点
+// <div id="app></div>
+
+// src/index.js
+import App from './demo/App'
+
+let app = new App('app')
+app.init()
+
+// src/demo/App.js
+class App {
+  constructor(id) {
+
+  }
+  init() {
+    
+  }
+}
+
+export default App
+```
 
 
 
