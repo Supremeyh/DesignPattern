@@ -1497,16 +1497,14 @@ console.log(owner.price, renter.price)
 描述语言语法如何定义，如何解释和编译，用于专业场景
 
 
+### 综合应用
+#### 介绍和演示
+使用 jQuery 做一个模拟购物车的示例
+要点：显示购物车列表、加入购物车、从购物车删除
+模式：工厂、单例； 装饰器、观察者； 状态、模板方法、代理
 
 
 
-
-
-
-
-
-####  结合核心技术
-####  结合框架运用
 
 
 
@@ -1538,7 +1536,7 @@ console.log(owner.price, renter.price)
 行程结束时，显示打车金额（假定行程就 5 公里）
 
 UML 类图
-![UML类图](/static/img/UML1.jpg)
+![UML类图](/static/img/design-pattern-UML2.jpg)
 ```js
 // /review1.js
 class Car {
@@ -1587,7 +1585,7 @@ trip.showFare()
 车辆出来时，出口显示器显示车牌号和停车时长
 
 UML 类图
-![UML类图](/static/img/UML2.jpg)
+![UML类图](/static/img/design-pattern-UML3.jpg)
 ```js
 // /review2.js
 class Park {
@@ -1712,7 +1710,15 @@ park.out(car3)
 ```
 
 ### 综合示例
-jQuery实现购物车
+使用 jQuery 实现模拟购物车的示例
+
+包括： 显示购物车列表、加入购物车、从购物车删除
+模式：工厂、单例； 装饰器、观察者； 状态、模板方法、代理
+
 ####  设计方案
-####  代码演示
-####  设计模式对应
+UML 类图
+![UML类图](/static/img/design-pattern-UML1.jpg)
+
+####  代码基础环境
+
+
