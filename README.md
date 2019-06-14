@@ -1490,8 +1490,11 @@ console.log(owner.price, renter.price)
 renter.setPrice(100, mediator)
 console.log(owner.price, renter.price)
 ```
+##### 访问者模式
+将数据操作和数据结构进行分离
 
-
+##### 解释器模式
+描述语言语法如何定义，如何解释和编译，用于专业场景
 
 
 
