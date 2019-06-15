@@ -2,11 +2,25 @@
   {
     "id": 1,
     "name": "观察者模式",
-    "time": "2019-06-10"
+    "price": 200,
+    "discount": 1
   },
   {
     "id": 2,
     "name": "装饰器模式",
-    "time": "2019-06-14"
+    "price": 300,
+    "discount": 0
+  },
+  {
+    "id": 3,
+    "name": "单例模式",
+    "price": 180,
+    "discount": 0
+  },
+  {
+    "id": 4,
+    "name": "工厂模式",
+    "price": 500,
+    "discount": 1
   }
 ]

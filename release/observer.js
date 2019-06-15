@@ -11,10 +11,10 @@ class Subject {
   }
   setState(state) {
     this.state = state
-    this.notifyAllObservsers()
+    this.notifyAllObservers()
   }
   // 循环所有的观察者
-  notifyAllObservsers() {
+  notifyAllObservers() {
     this.observers.forEach(observer => {
       // 遍历的每个元素执行update方法
       observer.update()

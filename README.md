@@ -1501,7 +1501,14 @@ console.log(owner.price, renter.price)
 #### 介绍和演示
 使用 jQuery 做一个模拟购物车的示例
 要点：显示购物车列表、加入购物车、从购物车删除
-模式：工厂、单例； 装饰器、观察者； 状态、模板方法、代理
+模式：
+工厂 -- $() 使用jq 、创建商品  
+单例 -- 购物车
+装饰器 -- 打印日志
+观察者 -- 网页事件 click、 promise
+状态 -- StateMachine 添加到购物车、从购物车删除 
+模板方法 -- init()方法 内容/按钮/渲染 
+代理 -- 折扣商品信息处理 proxy
 
 ####  设计方案
 UML 类图
@@ -1534,13 +1541,15 @@ npm i jquery --save  安装 jq
 // index.html  替换原有内容 为 #app 的节点
 // <div id="app></div>
 
+// 创建 src 下的 shop 文件夹 为本综合示例 项目文件
+
 // src/index.js
-import App from './demo/App'
+import App from './shop/App'
 
 let app = new App('app')
 app.init()
 
-// src/demo/App.js
+// src/shop/App.js
 class App {
   constructor(id) {
 
@@ -1552,27 +1561,325 @@ class App {
 
 export default App
 ```
+#### 具体实现
+index -> App -> List组件 -> Item -> Cart -> ShoppingCart
+
+##### index.js
+```js
+// index.js
+import App from './shop/App'
+
+let app = new App('app')
+app.init()
+```
+
+##### App
+```js
+// src/shop/App.js
+import $ from 'jquery'
+import ShoppingCart from './ShoppingCart/ShoppingCart'
+import List from './List/List'
+
+class App {
+  constructor(id) {
+    this.$el = $('#'+id)
+  }
+  init() {
+    this.initShoppingCart()
+    this.initList()
+  }
+  // 初始化购物车
+  initShoppingCart() {
+    let shoppingCart = new ShoppingCart(this)
+    shoppingCart.init()
+  }
+  // 初始化购列表
+  initList() {
+    let list = new List(this)
+    list.init()
+  }
+}
+
+export default App
+```
+##### List
+```js
+// src/shop/List/List.js
+import $ from 'jquery'
+import { GET_LIST } from '../config/config'
+import createItem from './CreateItem'
+
+export default class List {
+  constructor(app) {
+    this.app = app
+    this.$el = $('<div>')
+
+  }
+  init() {
+    this.loadData().then(data => {
+      this.initItemList(data)
+    }).then(() => {
+      this.render()
+    })
+  }
+  // 获取数据
+  loadData() {
+    // 返回 Promise 实例
+    // 观察者模式
+    return fetch(GET_LIST).then(result => {
+      return result.json()
+    })
+  }
+  // 生成列表
+  initItemList(data) {
+    data.map(itemData => {
+      // 创建一个 item 然后 init
+      let item = createItem(this, itemData)
+      item.init()
+      return item
+    })
+  }
+  // 渲染
+  render() {
+    this.app.$el.append(this.$el)
+  }
+}
+```
+##### Item
+```js
+// src/shop/List/Item.js
+import $ from 'jquery'
+import getCart from '../ShoppingCart/GetCat'
+import StateMachine from 'javascript-state-machine'
+import log from '../utils/log'
+
+export default class Item {
+  constructor(list, data) {
+    this.list = list
+    this.data = data
+    this.$el = $('<div>')
+    this.cart = getCart()
+  }
+  // 模板方法模式  通过一个方法将多个方法其封装合并，统一输出
+  init() {
+    this.initContent()
+    this.initBtn()
+    this.render()
+  }
+  initContent() {
+    let $el = this.$el
+    let data = this.data
+    $el.append($(`<p>名称：${data.name}</p>`))
+    $el.append($(`<p>价格：${data.price}</p>`))
+  }
+  initBtn() {
+    let $el = this.$el
+    let $btn = $(`<button>`)
+    let _this = this
+
+    // 状态模式
+    let fsm = new StateMachine({
+      init: '加入购物车',
+      transitions: [
+        {
+          name: 'addToCart',
+          from: '加入购物车',
+          to: '从购物车删除'
+        },
+        {
+          name: 'deleteFromCart',
+          from: '从购物车删除',
+          to: '加入购物车'
+        }
+      ],
+      methods: {
+        onAddToCart() {
+          _this.addToCartHandle()
+          updateText()
+        },
+        onDeleteFromCart() {
+          _this.delFromCartHandle()
+          updateText()
+        }
+      } 
+    })
+
+    function updateText() {
+      $btn.text(fsm.state)
+    }
+
+    $btn.click(() => {
+      // 添加到购物车、从购物车删除      
+      if(fsm.is('加入购物车')) {
+        fsm.addToCart()
+      } else {
+        fsm.deleteFromCart()
+      }
+    })
+
+    updateText()
+    $el.append($btn)
+  }
+
+  // 添加到购物车
+  // 装饰器模式
+  @log('add')
+  addToCartHandle() {
+    this.cart.add(this.data)
+  }
+  
+  // 从购物车删除
+  // 装饰器模式
+  @log('del') 
+  delFromCartHandle() {
+    this.cart.del(this.data.id)
+  }
+  render() {
+    this.list.$el.append(this.$el)
+  }
+}
+```
+
+##### CreateItem
+```js
+// src/shop/List/CreateItem.js
+import Item from './Item';
+
+// 工厂模式
+export default function(list, itemData) {
+  if(itemData.discount) {
+    itemData = createDiscount(itemData)
+  }
+  return new Item(list, itemData)
+}
+
+// 代理模式 做折扣显示
+function createDiscount(itemData) {
+  return new Proxy(itemData, {
+    get(target, key, receiver) {
+      if(key === 'name') {
+        return `${target[key]} 【折扣】`
+      }
+      if(key === 'price') {
+        return target[key] * 0.8
+      }
+      return target[key]
+    }
+  })
+}
+```
+
+##### CreateItem
+```js
+// src/shop/ShoppingCart/ShoppingCart.js
+import $ from './node_modules/jquery'
+import GetCat from './GetCat'
+
+export default  class ShoppingCart {
+  constructor(app) {
+    this.app = app
+    this.cart = GetCat()
+    this.$el = $('<div>').css({'padding-bottom': '10px', 'border-bottom': '2px solid #ccc'})
+
+  }
+  init() {
+    this.initBtn()
+    this.render()
+  }
+  initBtn() {
+    let $btn = $('<button>购物车</button>')
+    $btn.click(() => {
+      this.showCart()
+    })
+    this.$el.append($btn)
+  }
+  showCart() {
+    alert(this.cart.getList())
+  }
+  render() {
+    this.app.$el.append(this.$el)
+  }
+}
+```
+
+##### GetCat
+```js
+// src/shop/ShoppingCart/GetCat.js
+class Cart {
+  constructor() {
+    this.list = []
+  }
+  add(data) {
+    this.list.push(data)
+  }
+  del(id) {
+    this.list = this.list.filter(item => {
+      if(item.id === id) {
+        return false
+      }
+      return true
+    })
+  }
+  getList() {
+    return this.list.map(item => {
+      return item.name
+    }).join('\n')
+  }
+}
+
+// 返回单例
+let getCart = (function() {
+  let cart 
+  return function() {
+    if(!cart) {
+      cart = new Cart
+    }
+    return cart
+  }
+})()
 
 
+export default getCart
+```
+
+##### 其他
+```js
+// src/shop/utils/log.js
+// 装饰器 打印日志
+export default function(type) {
+  return function(target, name, descriptor) {
+    let oldValue = descriptor.value
+    descriptor.value = function() {
+      // 再次统一打印日志
+      console.log(`日志上报 ${type}`)
+      // 执行原有方法
+      return oldValue.apply(this, arguments)
+    }
+    return descriptor
+ }
+}
 
 
+// src/shop/config/config.js
+export const GET_LIST = '/api/list.json'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// src/api/list.json  假数据
+[
+  {
+    "id": 1,
+    "name": "观察者模式",
+    "price": 200,
+    "discount": 1
+  },
+  {
+    "id": 2,
+    "name": "装饰器模式",
+    "price": 300,
+    "discount": 0
+  }
+]
+```
 
 
 ### 面试题

@@ -1,4 +1,4 @@
-import App from './demo/App'
+import App from './shop/App'
 
 let app = new App('app')
 app.init()
