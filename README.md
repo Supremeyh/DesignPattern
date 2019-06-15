@@ -1772,7 +1772,7 @@ function createDiscount(itemData) {
 ##### CreateItem
 ```js
 // src/shop/ShoppingCart/ShoppingCart.js
-import $ from './node_modules/jquery'
+import $ from 'jquery'
 import GetCat from './GetCat'
 
 export default  class ShoppingCart {
